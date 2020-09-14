@@ -29,7 +29,7 @@ def drill(request):
                 'entry_length': len(clue.entry.entry_text),
                 'error_message': "Sorry, that was not correct. Please try again."
             }
-            return render(request, 'tdd_exercise/drill.html', context)
+            return render(request, 'drill.html', context)
     else:
         clue_id = random.randint(1,57970)
         clue = get_object_or_404(Clue, id=clue_id)
@@ -38,7 +38,7 @@ def drill(request):
             'clue_id': clue_id,
             'entry_length': len(clue.entry.entry_text)
         }
-        return render(request, 'tdd_exercise/drill.html', context)
+        return render(request, 'drill.html', context)
 
 def answer(request, clue_id):
     clue = get_object_or_404(Clue, id=clue_id)
@@ -69,4 +69,4 @@ def answer(request, clue_id):
         'correct_answers': correct_answers,
         'total_clues': total_clues
     }
-    return render(request, 'tdd_exercise/answer.html', context)
+    return render(request, 'answer.html', context)

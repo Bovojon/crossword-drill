@@ -14,7 +14,8 @@
     <main role="main" class="container">
         <div class="container" style="margin-top: 100px; width: 40%;">
             {% if correct %}
-              {{clue.entry.entry_text}} is the correct answer! You have now answered {{correct_answers}} (of {{total_clues}}) clues correctly"
+              <p>{{clue.entry.entry_text}} is the correct answer!</p>
+              <p>You have now answered {{correct_answers}} (of {{total_clues}}) clues correctly.</p>
             {% else %}
               <p>The answer is: {{clue.entry.entry_text}}</p>
             {% endif %}
@@ -34,6 +35,9 @@
             {% else %}
               <p>It's the only appearance of this clue.</p>
             {% endif %}
+            <div class="alert alert-primary" role="alert" style="margin-top: 20px; text-align: center;"> 
+                <a href="{% url 'xword-drill' %}" class="alert-link">Back</a>
+            </div>
         </div>
     </main>
   </body>
