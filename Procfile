@@ -1,1 +1,1 @@
-web: gunicorn myproject.wsgi
+web: gunicorn tdd_exercise.wsgi
