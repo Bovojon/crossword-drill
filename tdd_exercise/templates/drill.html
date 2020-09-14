@@ -1,1 +1,42 @@
-<p>Drill</p>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Crossword puzzle TDD exercise.">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Drill</title>
+  </head>
+
+  <body>
+    <main role="main" class="container">
+        <div class="container" style="margin-top: 100px; width: 40%;">
+          {% if clue.clue_text %}
+              <p>Clue: <strong>{{ clue.clue_text }}</strong></p>
+              <p>Entry-length: <strong>{{ entry_length }}</strong></p>
+              <p>Puzzle was published by <strong>{{ clue.puzzle.byline }}</strong> on <strong>{{ clue.puzzle.date }}</strong></p>
+              <form action="{% url 'xword-drill' %}" method="post">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <div class="input-group mb-3">
+                      <input type="text" name="answer" class="form-control" id="answer" placeholder="Enter your answer">
+                      <input type="hidden" value="{{ clue.pk }}" name="clue_id">
+                      <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                      </div>
+                    </div>
+                  </div>
+              </form>
+              <div class="alert alert-primary" role="alert" style="margin-top: 20px; text-align: center;"> 
+                <a href="{% url 'xword-answer' clue.pk %}" class="alert-link">Escape hatch</a>
+              </div>
+              {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+          {% else %}
+              <p>Sorry, something went wrong.</p>
+          {% endif %}
+        </div>
+    </main>
+  </body>
+</html>
