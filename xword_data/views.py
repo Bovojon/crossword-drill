@@ -18,7 +18,7 @@ def drill(request):
     if request.method == 'POST':
         ans = request.POST['answer']
         clue_id = request.POST['clue_id']
-        clue = get_object_or_404(Clue, pk=clue_id)
+        clue = get_object_or_404(Clue, id=clue_id)
         if ans.upper() == clue.entry.entry_text:
             request.session['correct_answers'] += 1
             request.session['correct'] = True
@@ -32,7 +32,7 @@ def drill(request):
             return render(request, 'tdd_exercise/drill.html', context)
     else:
         clue_id = random.randint(1,57970)
-        clue = get_object_or_404(Clue, pk=clue_id)
+        clue = get_object_or_404(Clue, id=clue_id)
         context = {
             'clue': clue,
             'clue_id': clue_id,
@@ -41,4 +41,32 @@ def drill(request):
         return render(request, 'tdd_exercise/drill.html', context)
 
 def answer(request, clue_id):
+    clue = get_object_or_404(Clue, id=clue_id)
+    clues = Clue.objects.filter(clue_text__exact=clue.clue_text)
+    clue_entries = defaultdict(int)
+    try:
+        correct = request.session['correct']
+        correct_answers = request.session['correct_answers']
+        total_clues = request.session['total_clues']
+    except:
+        correct = False
+        correct_answers = 0
+        total_clues = 0
+    if len(clues) > 1:
+        multiple = True
+        for c in clues:
+            clue_entries[c.entry] += 1
+    else:
+        multiple = False
+    clue_entries_dict = {}
+    for k, v in clue_entries.items():
+        clue_entries_dict[str(k)] = str(v)
+    context = {
+        'clue': clue,
+        'clue_entries': clue_entries_dict,
+        'multiple': multiple,
+        'correct': correct,
+        'correct_answers': correct_answers,
+        'total_clues': total_clues
+    }
     return render(request, 'tdd_exercise/answer.html', context)
