@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from collections import defaultdict
-import random
 
 from xword_data.models import (Entry, Puzzle, Clue)
 
@@ -30,8 +29,6 @@ def drill(request):
             }
             return render(request, 'drill.html', context)
     else:
-        # clue_id = random.randint(1,57970)
-        # clue = get_object_or_404(Clue, id=clue_id)
         request.session['total_clues'] += 1
         clue = Clue.objects.order_by('?')[0]
         context = {
