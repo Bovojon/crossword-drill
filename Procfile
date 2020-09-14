@@ -1,1 +1,0 @@
-web: gunicorn tdd_exercise.wsgi
